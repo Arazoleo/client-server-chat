@@ -4,13 +4,13 @@ Trabalho de Redes de Computadores. Pegamos o chat TCP multithread visto em aula 
 
 ## Situação atual
 
-O servidor está pronto e testado. O cliente de benchmark, o script dos experimentos e o relatório ainda estão em andamento.
+O servidor, o cliente de benchmark e o script dos experimentos estão prontos. Faltam as medições com cabo e o relatório.
 
 | Parte | Responsável | Situação |
 |---|---|---|
 | `chat_server.c` | Leonardo | pronto |
-| `chat_client.c` (modo `--bench`) | Bonavina | a fazer |
-| `run_bench.sh` | Bonavina | a fazer |
+| `chat_client.c` (modo `--bench`) | Bonavina | pronto |
+| `run_bench.sh` | Bonavina | pronto |
 | Relatório, tabelas e gráficos | Thiago | a fazer |
 
 ## Como o servidor funciona
@@ -59,10 +59,51 @@ for i in 1 2 3; do (printf '/bench\n'; head -c 1000000000 /dev/zero) | nc -w 1 1
 
 O servidor deve mostrar `clients=3` e `bytes=3000000000`. Testamos no MacBook Air do Leonardo e funcionou, o chat normal também continua funcionando com um benchmark rodando ao mesmo tempo. A taxa que aparece nesse teste é limitada pelo próprio `nc`, então não serve como resultado do trabalho.
 
+## Cliente de benchmark
+
+```bash
+gcc -O2 -Wall -Wextra chat_client.c -o chat_client -pthread
+./chat_client <IP> <porta> --bench <segundos> <bloco_em_bytes> [--start-at <epoch>]
+```
+
+O cliente conecta, manda `/bench\n`, espera o horário de `--start-at`, se ele foi passado, e envia blocos sem parar até o tempo acabar. Depois chama `shutdown(fd, SHUT_WR)`, espera o servidor fechar a conexão e imprime `BENCH_SENT bytes=... seconds=...`. Se o horário de largada já tiver passado, ou se o cliente acordar mais de 0,1 s depois dele, o cliente sai com erro, porque aquela rodada não seria comparável.
+
+Sem o modo `--bench`, `./chat_client <IP> <porta>` continua sendo o chat normal.
+
+## Rodar os experimentos
+
+O servidor é iniciado à parte, e o script roda na máquina dos clientes:
+
+```bash
+# na máquina do servidor
+./chat_server 5000 | tee server.log
+
+# na máquina dos clientes (IP, porta, segundos, bloco, repetições, máximo de clientes)
+./run_bench.sh 192.168.0.10 5000 10 65536 5 10
+```
+
+Em cada rodada, o script escolhe um horário 2 a 3 segundos à frente e passa o mesmo `--start-at` para todos os clientes. A pausa entre as rodadas muda com a variável `BENCH_PAUSE` (padrão 2 s). Os clientes de uma rodada rodam todos na mesma máquina, então o relógio deles é o mesmo. Para espalhar clientes por várias máquinas, os relógios precisariam estar sincronizados por NTP.
+
+O script registra cada rodada e os bytes que cada cliente enviou em `clients.log`, na pasta onde ele foi rodado. Se algum cliente falhar, o script para e avisa. Nesse caso, reinicie o servidor e rode tudo de novo, porque o `server.log` ficou com uma rodada inválida.
+
+No final, copie o `server.log` para a mesma pasta do `clients.log` e gere as tabelas:
+
+```bash
+./run_bench.sh --csv server.log clients.log > results.csv       # uma linha por rodada
+./run_bench.sh --summary server.log clients.log > summary.csv   # média, desvio, mínimo e máximo por quantidade de clientes
+```
+
+Antes de gerar qualquer tabela, o script confere os dois logs rodada por rodada. Ele recusa os logs, sem gerar nada, quando o servidor viu menos clientes do que o script disparou, quando algum cliente não terminou, quando o servidor recebeu um total de bytes diferente do que os clientes enviaram, quando o `server.log` tem rodadas de outra bateria, ou quando as quantidades de clientes têm números de repetições diferentes. Por isso, use um `server.log` novo para cada bateria.
+
+## Testes
+
+```bash
+tests/test_bench.sh
+```
+
+Os testes usam o `chat_server` real em `127.0.0.1`, então os valores de Mbps deles não servem como resultado do trabalho.
+
 ## O que falta
 
-- Cliente com o modo `--bench <segundos>  em laço até o tempo acabar, com largada combinada entre todos os clientes.
-- Script que roda de 1 a 10 clientes, com várias repetições cada.
 - Rodar os experimentos de verdade, com cabo, nas máquinas do grupo.
 - Relatório: ficha das máquinas, parâmetros dos testes, tabela de clientes × Mbps, gráfico e discussão dos gargalos.
-- Completar este README com as instruções do cliente e do script.
