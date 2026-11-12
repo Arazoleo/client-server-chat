@@ -1,3 +1,8 @@
 chat_server
 chat_client
 *.log
+*.aux
+*.out
+*.synctex.gz
+!relatorio/dados/*.log
+!relatorio/dados/perfil/*.log
