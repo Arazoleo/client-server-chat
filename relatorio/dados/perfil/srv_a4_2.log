@@ -1,0 +1,6 @@
+Chat TCP ativo na porta 5001.
+BENCH_CLIENT bytes=27725201408 seconds=10.000
+BENCH_CLIENT bytes=26953646080 seconds=10.000
+BENCH_CLIENT bytes=26794852352 seconds=10.001
+BENCH_CLIENT bytes=27176599552 seconds=10.001
+BENCH clients=4 bytes=108650299392 seconds=10.002 mbps=86904.79

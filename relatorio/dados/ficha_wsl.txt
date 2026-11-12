@@ -1,0 +1,50 @@
+﻿/home/thiago/bench/coletar_ficha.sh: Bourne-Again shell script, ASCII text executable
+
+== Maquina ==
+hostname: Thiago
+data: 2026-11-11 19:37:09 -0300
+
+== Sistema operacional ==
+PRETTY_NAME="Ubuntu 26.04.1 LTS"
+VERSION="26.04.1 LTS (Resolute Raccoon)"
+kernel: 6.18.58.1-microsoft-standard-WSL2 (x86_64)
+
+== Processador ==
+CPU(s):                                  12
+Model name:                              12th Gen Intel(R) Core(TM) i5-12450HX
+Thread(s) per core:                      2
+Core(s) per socket:                      6
+Socket(s):                               1
+
+== Memoria RAM ==
+               total        used        free      shared  buff/cache   available
+Mem:           3.7Gi       481Mi       2.4Gi       4.1Mi       942Mi       3.2Gi
+
+== Compilador ==
+gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+
+== Interface de rede ==
+interface: eth0
+eth0             UP             172.25.224.49/20 fe80::215:5dff:fe87:c28e/64 
+MTU: 1472
+velocidade negociada (Mbit/s): 10000
+duplex: full
+driver: hv_netvsc
+	Auto-negotiation: off
+	Duplex: Full
+	Speed: 10000Mb/s
+	Supported link modes:   Not reported
+
+== Placa de rede (PCI) ==
+lspci indisponivel
+
+== Parametros TCP ==
+net.ipv4.tcp_timestamps = 1
+net.ipv4.tcp_congestion_control = cubic
+net.core.rmem_max = 4194304
+net.core.wmem_max = 4194304
+net.ipv4.tcp_rmem = 4096	131072	30603456
+net.ipv4.tcp_wmem = 4096	16384	4194304
+
+Ainda precisa ser anotado a mao: ligacao direta ou via switch (modelo),
+categoria do cabo (impressa nele) e qual PC foi o servidor.

@@ -1,0 +1,25 @@
+Rede simulada pronta: 10.0.0.2 -> 10.0.0.1 a 100mbit (burst 128kb, fila 20ms), MTU 1500.
+== ns_srv ==
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+veth_srv@if11    UP             10.0.0.1/24 fe80::d47b:9eff:fe93:c1e/64 
+qdisc noqueue 0: dev lo root refcnt 2 
+qdisc tbf 8006: dev veth_srv root refcnt 13 rate 100Mbit burst 128Kb lat 20ms 
+== ns_cli ==
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+veth_cli@if12    UP             10.0.0.2/24 fe80::4c2:b2ff:fe4c:91a7/64 
+qdisc noqueue 0: dev lo root refcnt 2 
+qdisc tbf 8007: dev veth_cli root refcnt 13 rate 100Mbit burst 128Kb lat 20ms 
+PING 10.0.0.1 (10.0.0.1) 56(84) bytes of data.
+
+--- 10.0.0.1 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4100ms
+rtt min/avg/max/mdev = 0.049/0.086/0.150/0.035 ms
+inicio: 2026-11-11 20:29:39 -0300
+status_bateria=0
+fim: 2026-11-11 20:42:10 -0300
+qdisc tbf 8006: root refcnt 13 rate 100Mbit burst 128Kb lat 20ms 
+ Sent 17889780 bytes 270868 pkt (dropped 0, overlimits 0 requeues 0) 
+ backlog 0b 0p requeues 0
+qdisc tbf 8007: root refcnt 13 rate 100Mbit burst 128Kb lat 20ms 
+ Sent 6438839955 bytes 4254145 pkt (dropped 5164, overlimits 676177 requeues 0) 
+ backlog 0b 0p requeues 0

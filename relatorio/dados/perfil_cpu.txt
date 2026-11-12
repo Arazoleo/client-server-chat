@@ -1,0 +1,7 @@
+n=1 a1 | BENCH clients=1 bytes=63336677376 seconds=10.000 mbps=50671.50 | amostras=1 us=1.0 sy=29.0 id=70.0 st=0.0
+n=3 a3 | BENCH clients=3 bytes=161658109952 seconds=10.000 mbps=129330.63 | amostras=11 us=1.0 sy=42.6 id=56.4 st=0.0
+n=4 a4_1 | BENCH clients=4 bytes=110341324800 seconds=10.000 mbps=88270.27 | amostras=11 us=0.9 sy=56.4 id=42.9 st=0.0
+n=4 a4_2 | BENCH clients=4 bytes=108650299392 seconds=10.002 mbps=86904.79 | amostras=11 us=1.0 sy=56.5 id=42.6 st=0.0
+n=4 a4_3 | BENCH clients=4 bytes=109695860736 seconds=10.004 mbps=87724.80 | amostras=11 us=1.0 sy=56.5 id=42.6 st=0.0
+n=5 a5 | BENCH clients=5 bytes=86139404288 seconds=10.003 mbps=68892.22 | amostras=11 us=1.0 sy=69.6 id=29.6 st=0.0
+n=10 a10 | BENCH clients=10 bytes=83362775040 seconds=10.013 mbps=66600.44 | amostras=11 us=1.2 sy=88.0 id=10.5 st=0.0
